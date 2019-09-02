@@ -2,8 +2,8 @@ package todolistapi.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import todolistapi.entity.Reservation;
+import todolistapi.entity.Task;
 
 @RepositoryRestResource
-public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+public interface TaskRepository extends JpaRepository<Task,Long> {
 }

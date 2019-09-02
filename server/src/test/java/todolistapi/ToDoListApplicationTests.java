@@ -11,7 +11,7 @@ import javax.validation.Validator;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ReservationApplicationTests {
+public class ToDoListApplicationTests {
 	@Autowired
 	private TestEntityManager entityManager;
 	private Validator validator;
