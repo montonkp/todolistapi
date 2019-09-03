@@ -1,7 +1,6 @@
 package todolistapi.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
 
 @Entity
@@ -9,7 +8,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Table(name = "Mart_TaskStatus")
+@Table(name = "MART_TASKSTATUS")
 public class TaskStatus {
     @Id
     @SequenceGenerator(name = "taskStatus_seq",sequenceName = "taskStatus_seq")

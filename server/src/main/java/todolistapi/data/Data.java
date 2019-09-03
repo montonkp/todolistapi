@@ -76,7 +76,6 @@ public class Data implements CommandLineRunner {
         member.setFirstName("Monthon");
         member.setLastName("Kanpoh");
         member.setBirthday(LocalDate.now().minusYears(18));
-        member.setPhone("0814463573");
         member.setEmail("monton.kp@gmail.com");
         memberRepository.save(member);
 
@@ -87,7 +86,6 @@ public class Data implements CommandLineRunner {
         member2.setFirstName("Abcd");
         member2.setLastName("Efgh");
         member2.setBirthday(LocalDate.now().minusYears(18));
-        member2.setPhone("0987654321");
         member2.setEmail("abcdefgh@gmail.com");
         memberRepository.save(member2);
     }
@@ -95,6 +93,7 @@ public class Data implements CommandLineRunner {
         ToDoList toDoList = new ToDoList();
 
         toDoList.setMember(memberRepository.findById(1l).get());
+        toDoList.setName("Workout Program");
         toDoList.setIssuedDate(LocalDate.now());
         toDoList.setDueDate(LocalDate.now().plusMonths(1));
         toDoListRepository.save(toDoList);
@@ -102,6 +101,7 @@ public class Data implements CommandLineRunner {
         ToDoList toDoList2 = new ToDoList();
 
         toDoList2.setMember(memberRepository.findById(2l).get());
+        toDoList2.setName("Holiday Tour Program");
         toDoList2.setIssuedDate(LocalDate.now());
         toDoList2.setDueDate(LocalDate.now().plusMonths(2));
         toDoListRepository.save(toDoList2);
