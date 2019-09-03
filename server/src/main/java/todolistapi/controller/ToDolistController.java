@@ -1,5 +1,8 @@
 package todolistapi.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,18 +11,23 @@ import todolistapi.entity.ToDoList;
 import todolistapi.repository.ToDoListRepository;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/todolist")
+@RequestMapping("/todolists")
 class ToDolistController {
     @Autowired
     private ToDoListRepository toDoListRepository;
 
+    @GetMapping("/search")
+    public Optional<ToDoList> getToDoListsByName(@RequestParam(required = false) String name ){
+        return toDoListRepository.findByName(name);
+    }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public Collection<ToDoList> getToDoLists() {
         return toDoListRepository.findAll().stream().collect(Collectors.toList());
     }
@@ -28,12 +36,12 @@ class ToDolistController {
         return toDoListRepository.findById(toDoListID).get();
     }
 
-    @DeleteMapping("/delete/{toDoListID}")
+    @DeleteMapping("/{toDoListID}")
     public void deleteToDoList(@PathVariable long toDoListID) {
         toDoListRepository.deleteById(toDoListID);
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<Object> createToDoList(@RequestBody ToDoList toDoList) {
         ToDoList saveToDoList = toDoListRepository.save(toDoList);
 
@@ -44,7 +52,7 @@ class ToDolistController {
 
     }
 
-    @PutMapping("/update/{toDoListID}")
+    @PutMapping("/{toDoListID}")
     public ResponseEntity<Object> updateToDoList(@RequestBody ToDoList toDoList, @PathVariable long toDoListID) {
 
         Optional<ToDoList> toDoListOptional = toDoListRepository.findById(toDoListID);
@@ -58,6 +66,5 @@ class ToDolistController {
 
         return ResponseEntity.noContent().build();
     }
-
 
 }

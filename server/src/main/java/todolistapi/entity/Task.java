@@ -1,7 +1,6 @@
 package todolistapi.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -10,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Table(name = "Mart_Task")
+@Table(name = "MART_TASK")
 public class Task {
     @Id
     @SequenceGenerator(name = "task_seq",sequenceName = "task_seq")
