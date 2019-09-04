@@ -16,8 +16,9 @@ public class FileService {
         try {
         // Java object to JSON
             String jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
-            Logger logger = LoggerFactory.getLogger("jsonLogger");
+            Logger logger = LoggerFactory.getLogger("loggerFile");
             logger.debug(jsonInString);
+            logger.debug(obj.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
