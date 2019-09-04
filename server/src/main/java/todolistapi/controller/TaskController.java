@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import todolistapi.entity.Task;
 import todolistapi.repository.TaskRepository;
+import todolistapi.service.FileService;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,30 +20,40 @@ import java.util.stream.Collectors;
 public class TaskController {
     @Autowired
     private TaskRepository taskRepository;
+    @Autowired
+    private FileService fileService;
 
     @GetMapping("/search")
     public Optional<Task> getTaskByTitle(@RequestParam(required = false) String title ){
-        return taskRepository.findByTitle(title);
+        Optional<Task> taskOptional = taskRepository.findByTitle(title);
+        fileService.saveLogFileAsJson(taskOptional);
+        return taskOptional;
     }
 
     @GetMapping("")
     public Collection<Task> getTasks() {
-        return taskRepository.findAll().stream().collect(Collectors.toList());
+        Collection<Task> taskCollection = taskRepository.findAll().stream().collect(Collectors.toList());
+        fileService.saveLogFileAsJson(taskCollection);
+        return taskCollection;
     }
     @GetMapping("/{taskID}")
     public Task getTask(@PathVariable Long taskID) {
-        return taskRepository.findById(taskID).get();
+        Task task = taskRepository.findById(taskID).get();
+        fileService.saveLogFileAsJson(task);
+        return task;
     }
 
     @DeleteMapping("/{taskID}")
     public void deleteTask(@PathVariable long taskID) {
+        Task task = taskRepository.findById(taskID).get();
+        fileService.saveLogFileAsJson(task);
         taskRepository.deleteById(taskID);
     }
 
     @PostMapping("")
     public ResponseEntity<Object> createTask(@RequestBody Task task) {
         Task saveTask = taskRepository.save(task);
-
+        fileService.saveLogFileAsJson(saveTask);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(saveTask.getId()).toUri();
 
@@ -54,13 +65,14 @@ public class TaskController {
 
         Optional<Task> taskOptional = taskRepository.findById(taskID);
 
+
         if (!taskOptional.isPresent())
             return ResponseEntity.notFound().build();
 
         task.setId(taskID);
 
         taskRepository.save(task);
-
+        fileService.saveLogFileAsJson(taskOptional);
         return ResponseEntity.noContent().build();
     }
 }
